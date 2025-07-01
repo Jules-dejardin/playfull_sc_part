@@ -9,6 +9,7 @@
 ~gran[1] = Synth(\gran_1a, [\bufNum, ~buffers[\synth][3].bufnum,\out, ~bus[\granBus], \amp,0.8], ~mainGrp);
 ~gran[2] = Synth(\gran_1a, [\bufNum, ~buffers[\perc][2].bufnum,\out, ~bus[\granBus], \amp,0.8], ~mainGrp);
 )
+
 (
 ~voice = OSCFunc({
 	arg msg;

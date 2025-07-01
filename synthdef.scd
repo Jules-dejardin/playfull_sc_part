@@ -47,6 +47,19 @@ SynthDef(\fxchain, {
 	Out.ar(out,sig);
 }).add;
 
+SynthDef(\comb_saturation, {
+	arg in, out=0, drywet=0;
+	var sig, dry;
+
+	dry = In.ar(in,2);
+	sig = BPF.ar(dry, (0..20).normalize.linlin(0,1,40,5000), 0.1).sum * 10.dbamp;
+	sig = sig.fold2;
+	sig = Balance2.ar(dry, sig, drywet);
+
+	Out.ar(out, sig);
+}).add;
+
+
 SynthDef(\reverb, {
 	arg in, out=0, drywet=0, time=0.5;
 	var sig, dry;
