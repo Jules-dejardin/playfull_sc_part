@@ -53,6 +53,8 @@ SynthDef(\comb_saturation, {
 
 	dry = In.ar(in,2);
 	sig = BPF.ar(dry, (0..20).normalize.linlin(0,1,40,5000), 0.1).sum * 10.dbamp;
+	sig = BHiShelf.ar(sig, 2000, 0.3, -4);
+	sig = BLowShelf.ar(sig, 200, 0.3, -4);
 	sig = sig.fold2;
 	sig = Balance2.ar(dry, sig, drywet);
 
@@ -61,11 +63,11 @@ SynthDef(\comb_saturation, {
 
 
 SynthDef(\reverb, {
-	arg in, out=0, drywet=0, time=0.5;
+	arg in, out=0, drywet=0, time=0.7;
 	var sig, dry;
 
 	dry = In.ar(in,2);
-	sig = MiVerb.ar(dry,0.4, drywet.lag(3), 0.3, 0.1);
+	sig = MiVerb.ar(dry, time.lag(0.01), drywet.lag(3), 0.3, 0.1);
 	Out.ar(out, sig);
 }).add;
 

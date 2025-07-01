@@ -20,9 +20,19 @@
 			\fxchain,
 			[
 				\in, ~bus[\fxBus],
-				\out,~bus[\reverbBus],
+				\out,~bus[\combSatBus],
 			],
 			~fxGrp
+		);
+
+	~comb_saturation = Synth.new(
+			\comb_saturation,
+			[
+				\in, ~bus[\combSatBus],
+				\out, ~bus[\reverbBus],
+				\drywet, 0
+			],
+			~reverbGrp, 'addToHead'
 		);
 
 	~reverb = Synth.new(
@@ -31,7 +41,8 @@
 				\in, ~bus[\reverbBus],
 				\out, 0,
 			],
-			~reverbGrp
+			~reverbGrp,
+			'addToTail'
 		);
 
 	});

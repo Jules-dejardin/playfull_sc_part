@@ -13,13 +13,14 @@
 (
 ~voice = OSCFunc({
 	arg msg;
-	// [msg[0]].postln;
+	// [msg[1]].postln;
 	case
 	{msg[2] == 'amp'} {~gran[msg[1]].set(\amp,msg[3]); } // actif ou non
 	{msg[2] == 'fx1'} {~fx.set(\pitch,msg[3].linlin(0,1,0,2)); } // Y
 	{msg[2] == 'fx2'} {~fx.set(\delaywet,msg[3].linlin(0.5,1,-1, 0)); } // X
-	{msg[2] == 'triggerRight'} {~rev.set(\drywet,msg[3].linlin(0,1,0,0.7)); } // gachette gauche
-	{msg[2] == 'triggerLeft'} {~fx.set(\sat,msg[3].linlin(0,1,1,5)); } // gachette gauche
+	// reverberation
+	{msg[2] == 'triggerRight' && msg[1] == 0} {~rev.set(\drywet,msg[3].linlin(0,1,0.0,1).postln); } // gachette gauche
+	{msg[2] == 'triggerLeft' && msg[1] == 0} {~comb_saturation.set(\drywet,msg[3].linlin(0,1,-1,1)); } // gachette gauche
 	{msg[2] == 'joystick0y'} {~gran[msg[1]].set(\granDur,msg[3].linexp(0,1,0.01,0.3)); } // Y curseur 1
 	{msg[2] == 'joystick0y'} {~gran[msg[1]].set(\trigRate,msg[3].linexp(0,1,3,150)); } // Y curseur 1
 	{msg[2] == 'joystick0x'} {~gran[msg[1]].set(\rate, msg[3].linexp(0,1,0.2,10));} //X curseur 1
@@ -30,6 +31,8 @@
 );
 )
 ~voice.free;
+
+OSCFunc.trace(false)
 
 
 
